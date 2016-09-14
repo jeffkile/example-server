@@ -6,9 +6,14 @@ $(document).ready(function() {
   });
   
   $('#generateKeyBtn').click(function() {
+
+    // We probably want to replace this with a proper gif spinner at some point
+    $( "#result" ).html( 'Loading ...' );
+
+    // Key the private key from the server
     $.post('api/keypair', function( data ) {
         console.log(data);
-        $( ".result" ).html( data );
+        $( "#result" ).html( data.privateKey );
     });
   });
 
