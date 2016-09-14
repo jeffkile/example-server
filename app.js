@@ -19,11 +19,18 @@ const expressValidator = require('express-validator');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
+const fs = require('fs');
+const https = require('https');
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
 dotenv.load({ path: '.env.example' });
+
+// Load private key and cert
+const privateKey  = fs.readFileSync('sslcert/server.key');
+const certificate = fs.readFileSync('sslcert/server.crt');
+const sslCredentials = {key: privateKey, cert: certificate};
 
 /**
  * Controllers (route handlers).
@@ -59,6 +66,7 @@ mongoose.connection.on('error', () => {
  * Express configuration.
  */
 app.set('port', process.env.PORT || 3000);
+app.set('sslPort', process.env.SSL_PORT || 5443);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(compression());
@@ -216,10 +224,13 @@ app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRed
 app.use(errorHandler());
 
 /**
- * Start Express server.
+ * Start HTTPS Express server.
  */
-app.listen(app.get('port'), () => {
-  console.log('%s Express server listening on port %d in %s mode.', chalk.green('✓'), app.get('port'), app.get('env'));
+var httpsServer = https.createServer(sslCredentials, app);
+httpsServer.listen(app.get('sslPort'), () => {
+  console.log('%s HTTPS Express server listening on port %d in %s mode.', chalk.green('✓'), app.get('sslPort'),
+    app.get('env'));
 });
+
 
 module.exports = app;
