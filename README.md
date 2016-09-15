@@ -1,3 +1,14 @@
+
+Instructions for how to test
+===========================
+1. Start the server
+1. Go to https://localhost:5443
+1. Click "Generate a key"'
+1. Copy the Id of the key that is generated
+1. Enter the ID in to the ID box under "Encrypt Something"
+1. Enter the data you want to encrypt in the box "Data"
+1. Click the button that says "Encrypt your data" and your encrypted data will appear base 64 encoded to the right
+
 Example Server
 =======================
 
