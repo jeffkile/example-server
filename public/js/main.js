@@ -12,7 +12,7 @@ $(document).ready(function() {
     $( "#result" ).html( 'Loading ...' );
 
     // Key the private key from the server
-    $.post('api/keypair', function(data) {
+    $.post('api/keypair', function(data, status) {
       $('#result').html(
         '<div><b>Id (Use this to encrypt things with the public key on the server):</b><br>' +
         data.id +
@@ -20,6 +20,10 @@ $(document).ready(function() {
         data.privateKey +
         '</div>'
       );
+    }).fail(function(response) {
+
+      // TODO: User friendly error handling 
+      $('#result').html('Error, something went wrong, please try again.');
     });
   });
 
@@ -34,12 +38,15 @@ $(document).ready(function() {
     };
 
     // Key the private key from the server
-    $.post('api/encrypt', postData, function(data) {
-      console.log(data);
+    $.post('api/encrypt', postData, function(dat) {
       $('#encryptionResult').html(
         '<div><b>Encrypted Data:</b><br>' +
         data.encryptedData
       );
+    }).fail(function(response) {
+
+      // TODO: User friendly error handling 
+      $('#encryptionResult').html('Error something went wrong, please try again');
     });
   });
 });
