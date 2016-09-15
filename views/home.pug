@@ -12,5 +12,15 @@ block content
         a.btn.btn-default(href='#', role='button', id='generateKeyBtn') Generate a key »
     .col-sm-6
       div(id='result')
+  .row
     .col-sm-6
+      h2 Encrypt something 
+      p Enter your public key's ID and something you want to encrypt
+      p ID: 
+        input(id='publicKeyId')
+      p Data:
+        textarea(id='thingToEncrypt')
+      p
+        a.btn.btn-default(href='#', role='button', id='encryptBtn') Encrypt your data »
     .col-sm-6
+      div(id='encryptionResult')

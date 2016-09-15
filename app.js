@@ -175,6 +175,7 @@ app.get('/api/google-maps', apiController.getGoogleMaps);
  * Keypair routes.
  */
 app.post('/api/keypair', keypairController.create);
+app.post('/api/encrypt', keypairController.encrypt);
 
 /**
  * OAuth authentication routes. (Sign in)
