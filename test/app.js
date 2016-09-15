@@ -48,3 +48,19 @@ describe('GET /random-url', () => {
       .expect(404, done);
   });
 });
+
+describe('POST /api/keypair', () => {
+  it('should return 200', (done) => {
+    request(app)
+      .post('/api/keypair')
+      .expect(200, done);
+  });
+});
+
+describe('POST /api/encrypt without data', () => {
+  it('should return 500', (done) => {
+    request(app)
+      .post('/api/encrypt')
+      .expect(500, done);
+  });
+});
