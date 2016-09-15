@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const keypair = require ('keypair');
 
 const Key = require('../models/Key');
@@ -10,12 +11,10 @@ exports.create = function(req, res, next) {
 
   // Put public into DB
   const publicKey = new Key({ publicKey: pair.public });
-  publicKey.save(function(err, data) {
+  publicKey.save((err, data) => {
     if (err)
       return next(err);
   
-    console.log(data._id);
-
     // Return private to client
     res.json({ 
       id: data._id,
@@ -26,7 +25,16 @@ exports.create = function(req, res, next) {
 
 exports.encrypt = function(req, res, next) {
 
-  console.log(req.body);
-  next();
+  // TODO: Sanitize input to prevent DB injection attack 
+  Key.findById(req.body.id, (err, key) => {
+    if (err)
+      return next(err);
 
+    // Encrypt using the public key
+    let encrypted = crypto.publicEncrypt(key.publicKey, new Buffer(req.body.thingToEncrypt));
+
+    res.json({
+      encryptedData: encrypted.toString('base64')
+    });
+  });
 }

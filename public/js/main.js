@@ -36,7 +36,10 @@ $(document).ready(function() {
     // Key the private key from the server
     $.post('api/encrypt', postData, function(data) {
       console.log(data);
-      $('#encryptionResult').html(data);
+      $('#encryptionResult').html(
+        '<div><b>Encrypted Data:</b><br>' +
+        data.encryptedData
+      );
     });
   });
 });
